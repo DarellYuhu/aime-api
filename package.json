@@ -1,0 +1,29 @@
+{
+  "name": "aime-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aime API: Aplikasi Imigrasi Melindungi",
+  "bugs": {
+    "url": "https://github.com/edwinhati/aime-api/issues"
+  },
+  "author": {
+    "name": "Edwin Hati",
+    "email": "edwinhati@outlook.com",
+    "url": "https://github.com/edwinhati"
+  },
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.18.2",
+    "firebase": "^9.17.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
