@@ -11,5 +11,6 @@ router.get('/', function(req, res, next) {
 router.get('/press-release', newsController.getPressRelease);
 router.get('/news', newsController.getNews);
 router.get('/destination', destinationController.get);
+router.post('/destination/check', destinationController.check);
 
 module.exports = router;
