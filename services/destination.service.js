@@ -42,3 +42,14 @@ exports.checkInOut = async function (uuid, destinationId) {
 
     return newStatus === 'in' ? 'Checked In' : 'Checked Out';
 };
+
+exports.getHistory = async function (uuid) {
+    const historyRef = doc(db, 'history', uuid);
+    const historyDoc = await getDoc(historyRef);
+
+    if (historyDoc.exists()) {
+        return historyDoc.data().history;
+    } else {
+        return [];
+    }
+}
