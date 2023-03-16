@@ -21,35 +21,24 @@ exports.getDestination = async function () {
 }
 
 exports.checkInOut = async function (uuid, destinationId) {
-    const data = await getDoc(doc(db, "history", uuid));
-    if(!data.exists()) {
-        setDoc(doc(db, "history", uuid), {
-            status: 'in',
-            history: arrayUnion({
-                destinationId: destinationId,
-                status: 'in',
-                timestamp: Timestamp.now()
-            }),
-        })
-    } else {
-        if (data.data().status !== 'in') {
-            updateDoc(doc(db, "history", uuid), {
-                status: 'in',
-                history: arrayUnion({
-                    destinationId: destinationId,
-                    status: 'in',
-                    timestamp: Timestamp.now()
-                }),
-            })
-        } else {
-            updateDoc(doc(db, "history", uuid), {
-                status: 'out',
-                history: arrayUnion({
-                    destinationId: destinationId,
-                    status: 'out',
-                    timestamp: Timestamp.now()
-                }),
-            })
-        }
-    }
+    const historyRef = doc(db, 'history', uuid);
+    const historyDoc = await getDoc(historyRef);
+
+    const status = historyDoc.exists() ? historyDoc.data().status : undefined;
+    const newStatus = status === 'in' ? 'out' : 'in';
+
+    const newHistory = {
+        destinationId,
+        status: newStatus,
+        timestamp: Timestamp.now()
+    };
+
+    const updateObj = {
+        status: newStatus,
+        history: arrayUnion(newHistory)
+    };
+
+    await setDoc(historyRef, updateObj, { merge: true });
+
+    return newStatus === 'in' ? 'Checked In' : 'Checked Out';
 };

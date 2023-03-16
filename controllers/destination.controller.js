@@ -11,8 +11,8 @@ exports.get = async function (req, res) {
 exports.check = async function (req, res) {
     const { uuid, destinationId } = req.body;
     try {
-        await destinationService.checkInOut(uuid, destinationId);
-        res.status(200).json({ message: 'Success' });
+        const status = await destinationService.checkInOut(uuid, destinationId);
+        res.status(200).json({ status: status });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server Error' });
