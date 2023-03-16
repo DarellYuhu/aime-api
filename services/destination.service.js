@@ -42,14 +42,32 @@ exports.checkInOut = async function (uuid, destinationId) {
 
     return newStatus === 'in' ? 'Checked In' : 'Checked Out';
 };
+const getDestinationById = async (id) => {
+    const destRef = doc(db, 'destinations', id);
+    const destDoc = await getDoc(destRef);
 
-exports.getHistory = async function (uuid) {
+    return destDoc.exists() ? destDoc.data() : null;
+};
+
+exports.getHistory = async (uuid) => {
     const historyRef = doc(db, 'history', uuid);
     const historyDoc = await getDoc(historyRef);
 
     if (historyDoc.exists()) {
-        return historyDoc.data().history;
+        const historyData = historyDoc.data().history;
+
+        const history = await Promise.all(historyData.map(async (item) => {
+            const destination = await getDestinationById(item.destinationId);
+
+            return {
+                destination,
+                status: item.status,
+                timestamp: item.timestamp.toDate(),
+            };
+        }));
+
+        return history;
     } else {
         return [];
     }
-}
+};
