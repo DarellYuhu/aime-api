@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('aime:server');
 var http = require('http');
+var cors = require('cors');
 
 /**
  * Get port from environment and store in Express.
@@ -18,13 +19,12 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
+app.use(cors());
 var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
