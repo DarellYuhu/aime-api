@@ -1,5 +1,5 @@
 const firebase = require('../config');
-const { getFirestore, doc, setDoc } = require('firebase/firestore');
+const { getFirestore, doc, setDoc, getDoc, collection, getDocs } = require('firebase/firestore');
 const db = getFirestore(firebase);
 
 exports.createUser = async (userData) => {
@@ -18,3 +18,14 @@ exports.getUser = async (uuid) => {
         return 'User does not exist';
     }
 }
+
+exports.getAllUsers = async () => {
+    console.log('Getting all users...');
+    const usersRef = collection(db, 'users');
+    const usersSnap = await getDocs(usersRef);
+    const users = [];
+    usersSnap.forEach((doc) => {
+        users.push(doc.data());
+    });
+    return users;
+};

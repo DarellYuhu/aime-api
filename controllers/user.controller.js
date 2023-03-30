@@ -1,4 +1,4 @@
-const { createUser, getUser } = require("../services/user.service");
+const { createUser, getUser, getAllUsers } = require("../services/user.service");
 
 exports.create = async (req, res) => {
     const userData = req.body;
@@ -9,5 +9,10 @@ exports.create = async (req, res) => {
 exports.get = async (req, res) => {
     const uuid = req.params.uuid;
     const result = await getUser(uuid);
+    res.send(result);
+};
+
+exports.getAll = async (req, res) => {
+    const result = await getAllUsers();
     res.send(result);
 };

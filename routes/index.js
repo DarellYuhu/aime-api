@@ -16,5 +16,6 @@ router.post('/destination/check', destinationController.check);
 router.get('/destination/history/:uuid', destinationController.history);
 router.post('/user', userController.create);
 router.get('/user/:uuid', userController.get);
+router.get('/user', userController.getAll);
 
 module.exports = router;
