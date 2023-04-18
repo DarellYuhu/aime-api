@@ -2,6 +2,7 @@ const {
   createUser,
   getUser,
   getAllUsers,
+  updateUser,
 } = require("../services/user.service");
 
 exports.create = async (req, res) => {
@@ -18,5 +19,12 @@ exports.get = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   const result = await getAllUsers();
+  res.send(result);
+};
+
+exports.update = async (req, res) => {
+  const uuid = req.params.uuid;
+  const userData = req.body;
+  const result = await updateUser(uuid, userData);
   res.send(result);
 };

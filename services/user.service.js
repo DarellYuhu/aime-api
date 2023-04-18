@@ -6,6 +6,7 @@ const {
   getDoc,
   collection,
   getDocs,
+  updateDoc,
 } = require("firebase/firestore");
 const db = getFirestore(firebase);
 
@@ -35,4 +36,11 @@ exports.getAllUsers = async () => {
     users.push(doc.data());
   });
   return users;
+};
+
+exports.updateUser = async (uuid, userData) => {
+  console.log("Updating user...");
+  const userRef = doc(db, "users", uuid);
+  await updateDoc(userRef, userData);
+  return "User updated";
 };

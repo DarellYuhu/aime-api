@@ -3,6 +3,8 @@ var router = express.Router();
 var newsController = require("../controllers/news.controller");
 var destinationController = require("../controllers/destination.controller");
 var userController = require("../controllers/user.controller");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });  
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -17,5 +19,10 @@ router.get("/destination/history/:uuid", destinationController.history);
 router.post("/user", userController.create);
 router.get("/user/:uuid", userController.get);
 router.get("/user", userController.getAll);
-
+router.patch("/user/:uuid", userController.update);
+router.post("/upload", upload.single('file') ,(req, res) => {
+  // const file = req.files.file;
+  // res.send(file);
+  console.log(req.file);
+});
 module.exports = router;

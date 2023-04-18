@@ -18,7 +18,6 @@ app.set("port", port);
 /**
  * Create HTTP server.
  */
-app.use(cors());
 var server = http.createServer(app);
 
 /**

@@ -1,5 +1,5 @@
 const { initializeApp } = require('firebase/app');
-
+const { getAuth, createUserWithEmailAndPassword, otp } = require("firebase/auth");
 const firebaseConfig = {
     apiKey: "AIzaSyASGhrzhbiJjx0anndtCsnLLO_6XYMPOAE",
     authDomain: "aime-sulut.firebaseapp.com",
