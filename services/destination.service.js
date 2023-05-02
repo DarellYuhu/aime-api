@@ -33,24 +33,58 @@ exports.checkInOut = async function (uuid, destinationId) {
   const historyRef = doc(db, "history", uuid);
   const historyDoc = await getDoc(historyRef);
 
-  const status = historyDoc.exists() ? historyDoc.data().status : undefined;
-  const newStatus = status === "in" ? "out" : "in";
+  const historyData = historyDoc.exists() ? historyDoc.data() : undefined;
+  let newStatus;
 
-  const newHistory = {
-    destinationId,
-    status: newStatus,
-    timestamp: Timestamp.now(),
-  };
+  const lastHistory = historyData?.history?.[historyData.history.length - 1];
 
-  const updateObj = {
-    status: newStatus,
-    history: arrayUnion(newHistory),
-  };
-
-  await setDoc(historyRef, updateObj, { merge: true });
+  const historyCondition = (lastHistory ? true : false);
+  if (historyCondition && lastHistory?.destinationId !== destinationId && lastHistory?.status === "in") {
+    console.log("condition 1");
+    await setDoc(
+      historyRef,
+      {
+        history: arrayUnion({
+          destinationId: lastHistory?.destinationId,
+          status: "out",
+          timestamp: Timestamp.now(),
+        }),
+      },
+      { merge: true }
+    );
+    await setDoc(
+      historyRef,
+      {
+        history: arrayUnion({
+          destinationId,
+          status: "in",
+          timestamp: Timestamp.now(),
+        }),
+        status: "in",
+      },
+      { merge: true }
+    );
+    newStatus = "in";
+  } else {
+    console.log("condition 2");
+    await setDoc(
+      historyRef,
+      {
+        history: arrayUnion({
+          destinationId,
+          status: historyData?.status === "in" ? "out" : "in",
+          timestamp: Timestamp.now(),
+        }),
+        status: historyData?.status === "in" ? "out" : "in",
+      },
+      { merge: true }
+    );
+    newStatus = historyData?.status === "in" ? "out" : "in";
+  }
 
   return newStatus === "in" ? "Checked In" : "Checked Out";
 };
+
 const getDestinationById = async (id) => {
   const destRef = doc(db, "destinations", id);
   const destDoc = await getDoc(destRef);
