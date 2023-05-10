@@ -3,6 +3,7 @@ var router = express.Router();
 var newsController = require("../controllers/news.controller");
 var destinationController = require("../controllers/destination.controller");
 var userController = require("../controllers/user.controller");
+var bannerController = require("../controllers/banner.controller");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });  
 
@@ -25,4 +26,8 @@ router.post("/upload", upload.single('file') ,(req, res) => {
   // res.send(file);
   console.log(req.file);
 });
+router.post("/banner", bannerController.createBanner);
+router.get("/banner", bannerController.getBanner);
+router.patch("/banner/:id", bannerController.updateBanner);
+router.delete("/banner/:id", bannerController.deleteBanner);
 module.exports = router;

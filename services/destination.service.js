@@ -40,7 +40,6 @@ exports.checkInOut = async function (uuid, destinationId) {
 
   const historyCondition = (lastHistory ? true : false);
   if (historyCondition && lastHistory?.destinationId !== destinationId && lastHistory?.status === "in") {
-    console.log("condition 1");
     await setDoc(
       historyRef,
       {
@@ -66,7 +65,6 @@ exports.checkInOut = async function (uuid, destinationId) {
     );
     newStatus = "in";
   } else {
-    console.log("condition 2");
     await setDoc(
       historyRef,
       {
