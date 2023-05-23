@@ -7,6 +7,7 @@ var {
   collection,
   getFirestore,
   deleteDoc,
+  updateDoc,
 } = require("firebase/firestore");
 const db = getFirestore(firebase);
 
@@ -30,16 +31,16 @@ exports.get = async () => {
   return data;
 };
 
-// exports.update = async (id, title, category, url) => {
-//   const bannerCollection = collection(db, "banner");
-//   const payload = {
-//     title,
-//     category,
-//     url,
-//     timestamp: Timestamp.now(),
-//   };
-//   return await bannerCollection.doc(id).update(payload);
-// }
+exports.update = async (id, title, category, url) => {
+  // const bannerCollection = collection(db, "banner", id);
+  const payload = {
+    title,
+    category,
+    url,
+    timestamp: Timestamp.now(),
+  };
+  return await updateDoc(doc(db, "banner", id), payload);
+};
 
 exports.delete = async (id) => {
   return await deleteDoc(doc(db, "banner", id));
