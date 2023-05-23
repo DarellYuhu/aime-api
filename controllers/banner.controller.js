@@ -26,5 +26,12 @@ exports.updateBanner = async (req, res) => {
 };
 
 exports.deleteBanner = async (req, res) => {
-  res.status(200).json({ message: "Welcome to the Aime API" });
+    try {
+        const { id } = req.params;
+        const banner = await bannerService.delete(id);
+        res.status(200).json({ message: "Banner deleted successfully", banner });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server Error" });
+    }
 };
