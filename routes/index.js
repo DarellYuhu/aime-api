@@ -5,7 +5,7 @@ var destinationController = require("../controllers/destination.controller");
 var userController = require("../controllers/user.controller");
 var bannerController = require("../controllers/banner.controller");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });  
+const upload = multer({ dest: "uploads/" });
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -15,13 +15,14 @@ router.get("/", function (req, res, next) {
 router.get("/press-release", newsController.getPressRelease);
 router.get("/news", newsController.getNews);
 router.get("/destination", destinationController.get);
+router.delete("/destination/:id", destinationController.delete);
 router.post("/destination/check", destinationController.check);
 router.get("/destination/history/:uuid", destinationController.history);
 router.post("/user", userController.create);
 router.get("/user/:uuid", userController.get);
 router.get("/user", userController.getAll);
 router.patch("/user/:uuid", userController.update);
-router.post("/upload", upload.single('file') ,(req, res) => {
+router.post("/upload", upload.single("file"), (req, res) => {
   // const file = req.files.file;
   // res.send(file);
   console.log(req.file);

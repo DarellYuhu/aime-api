@@ -8,6 +8,7 @@ var {
   getDoc,
   arrayUnion,
   doc,
+  deleteDoc,
 } = require("firebase/firestore");
 
 const db = getFirestore(firebase);
@@ -38,8 +39,12 @@ exports.checkInOut = async function (uuid, destinationId) {
 
   const lastHistory = historyData?.history?.[historyData.history.length - 1];
 
-  const historyCondition = (lastHistory ? true : false);
-  if (historyCondition && lastHistory?.destinationId !== destinationId && lastHistory?.status === "in") {
+  const historyCondition = lastHistory ? true : false;
+  if (
+    historyCondition &&
+    lastHistory?.destinationId !== destinationId &&
+    lastHistory?.status === "in"
+  ) {
     await setDoc(
       historyRef,
       {
@@ -113,4 +118,9 @@ exports.getHistory = async (uuid) => {
   } else {
     return [];
   }
+};
+
+exports.deleteDestination = async (id) => {
+  const destRef = doc(db, "destinations", id);
+  await deleteDoc(destRef);
 };
