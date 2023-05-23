@@ -9,9 +9,31 @@ var {
   arrayUnion,
   doc,
   deleteDoc,
+  GeoPoint,
 } = require("firebase/firestore");
 
 const db = getFirestore(firebase);
+
+exports.createDestination = async (
+  address,
+  description,
+  destinationName,
+  imageURL,
+  location,
+  previewImages
+) => {
+  const destCollection = collection(db, "destinations");
+  const payload = {
+    address,
+    description,
+    destinationName,
+    imageURL,
+    location: new GeoPoint(location.latitude, location.longitude),
+    previewImages,
+  };
+  return await setDoc(doc(destCollection), payload);
+};
+
 exports.getDestination = async function () {
   const destCollection = collection(db, "destinations");
 

@@ -1,4 +1,30 @@
 var destinationService = require("../services/destination.service");
+exports.create = async function (req, res) {
+  const {
+    address,
+    description,
+    destinationName,
+    imageURL,
+    location,
+    previewImages,
+  } = req.body;
+  try {
+    const respons = await destinationService.createDestination(
+      address,
+      description,
+      destinationName,
+      imageURL,
+      location,
+      previewImages
+    );
+    console.log(respons);
+    res.status(200).json({ message: "Destination created" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
 exports.get = async function (req, res) {
   try {
     var destination = await destinationService.getDestination();

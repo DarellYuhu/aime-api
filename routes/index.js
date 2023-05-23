@@ -15,6 +15,7 @@ router.get("/", function (req, res, next) {
 router.get("/press-release", newsController.getPressRelease);
 router.get("/news", newsController.getNews);
 router.get("/destination", destinationController.get);
+router.post("/destination", destinationController.create);
 router.delete("/destination/:id", destinationController.delete);
 router.post("/destination/check", destinationController.check);
 router.get("/destination/history/:uuid", destinationController.history);
