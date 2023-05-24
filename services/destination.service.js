@@ -10,6 +10,7 @@ var {
   doc,
   deleteDoc,
   GeoPoint,
+  updateDoc,
 } = require("firebase/firestore");
 
 const db = getFirestore(firebase);
@@ -32,6 +33,27 @@ exports.createDestination = async (
     previewImages,
   };
   return await setDoc(doc(destCollection), payload);
+};
+
+exports.updateDestination = async (
+  id,
+  address,
+  description,
+  destinationName,
+  imageURL,
+  location,
+  previewImages
+) => {
+  const destRef = doc(db, "destinations", id);
+  const payload = {
+    address,
+    description,
+    destinationName,
+    imageURL,
+    location: new GeoPoint(location.latitude, location.longitude),
+    previewImages,
+  };
+  return await updateDoc(destRef, payload);
 };
 
 exports.getDestination = async function () {

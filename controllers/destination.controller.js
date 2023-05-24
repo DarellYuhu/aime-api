@@ -25,6 +25,34 @@ exports.create = async function (req, res) {
   }
 };
 
+exports.patch = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      address,
+      description,
+      destinationName,
+      imageURL,
+      location,
+      previewImages,
+    } = req.body;
+
+    await destinationService.updateDestination(
+      id,
+      address,
+      description,
+      destinationName,
+      imageURL,
+      location,
+      previewImages
+    );
+    res.status(200).json({ message: "Destination updated" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
 exports.get = async function (req, res) {
   try {
     var destination = await destinationService.getDestination();
