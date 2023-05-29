@@ -3,6 +3,7 @@ const {
   getUser,
   getAllUsers,
   updateUser,
+  deleteUser,
 } = require("../services/user.service");
 
 exports.create = async (req, res) => {
@@ -26,5 +27,11 @@ exports.update = async (req, res) => {
   const uuid = req.params.uuid;
   const userData = req.body;
   const result = await updateUser(uuid, userData);
+  res.send(result);
+};
+
+exports.delete = async (req, res) => {
+  const uuid = req.params.uuid;
+  const result = await deleteUser(uuid);
   res.send(result);
 };

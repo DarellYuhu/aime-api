@@ -21,6 +21,7 @@ router.delete("/destination/:id", destinationController.delete);
 router.post("/destination/check", destinationController.check);
 router.get("/destination/history/:uuid", destinationController.history);
 router.post("/user", userController.create);
+router.delete("/user/:uuid", userController.delete);
 router.get("/user/:uuid", userController.get);
 router.get("/user", userController.getAll);
 router.patch("/user/:uuid", userController.update);

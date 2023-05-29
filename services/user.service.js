@@ -7,6 +7,7 @@ const {
   collection,
   getDocs,
   updateDoc,
+  deleteDoc,
 } = require("firebase/firestore");
 const db = getFirestore(firebase);
 
@@ -43,4 +44,11 @@ exports.updateUser = async (uuid, userData) => {
   const userRef = doc(db, "users", uuid);
   await updateDoc(userRef, userData);
   return "User updated";
+};
+
+exports.deleteUser = async (uuid) => {
+  console.log("Deleting user...");
+  const userRef = doc(db, "users", uuid);
+  await deleteDoc(userRef);
+  return "User deleted";
 };
