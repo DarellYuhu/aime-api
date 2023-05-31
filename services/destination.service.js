@@ -12,6 +12,7 @@ var {
   GeoPoint,
   updateDoc,
   where,
+  query,
 } = require("firebase/firestore");
 
 const db = getFirestore(firebase);
@@ -80,13 +81,13 @@ exports.getDestination = async function () {
 };
 
 exports.getPopularDestination = async () => {
-  const destCollection = collection(db, "destinations");
+  const q = query(
+    collection(db, "destinations"),
+    where("popularDestination", "==", true)
+  );
 
   try {
-    const querySnapshot = await getDocs(
-      destCollection,
-      where("popularDestination", "==", true)
-    );
+    const querySnapshot = await getDocs(q);
 
     const data = querySnapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
