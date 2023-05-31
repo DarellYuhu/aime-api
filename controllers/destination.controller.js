@@ -7,6 +7,7 @@ exports.create = async function (req, res) {
     imageURL,
     location,
     previewImages,
+    popularDestination,
   } = req.body;
   try {
     const respons = await destinationService.createDestination(
@@ -15,7 +16,8 @@ exports.create = async function (req, res) {
       destinationName,
       imageURL,
       location,
-      previewImages
+      previewImages,
+      popularDestination
     );
     console.log(respons);
     res.status(200).json({ message: "Destination created" });
@@ -35,6 +37,7 @@ exports.patch = async (req, res) => {
       imageURL,
       location,
       previewImages,
+      popularDestination,
     } = req.body;
 
     await destinationService.updateDestination(
@@ -44,7 +47,8 @@ exports.patch = async (req, res) => {
       destinationName,
       imageURL,
       location,
-      previewImages
+      previewImages,
+      popularDestination
     );
     res.status(200).json({ message: "Destination updated" });
   } catch (error) {

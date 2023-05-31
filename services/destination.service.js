@@ -21,7 +21,8 @@ exports.createDestination = async (
   destinationName,
   imageURL,
   location,
-  previewImages
+  previewImages,
+  popularDestination
 ) => {
   const destCollection = collection(db, "destinations");
   const payload = {
@@ -31,6 +32,7 @@ exports.createDestination = async (
     imageURL,
     location: new GeoPoint(location.latitude, location.longitude),
     previewImages,
+    popularDestination,
   };
   return await setDoc(doc(destCollection), payload);
 };
@@ -42,7 +44,8 @@ exports.updateDestination = async (
   destinationName,
   imageURL,
   location,
-  previewImages
+  previewImages,
+  popularDestination
 ) => {
   const destRef = doc(db, "destinations", id);
   const payload = {
@@ -52,6 +55,7 @@ exports.updateDestination = async (
     imageURL,
     location: new GeoPoint(location.latitude, location.longitude),
     previewImages,
+    popularDestination,
   };
   return await updateDoc(destRef, payload);
 };
