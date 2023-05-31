@@ -11,6 +11,7 @@ var {
   deleteDoc,
   GeoPoint,
   updateDoc,
+  where,
 } = require("firebase/firestore");
 
 const db = getFirestore(firebase);
@@ -65,6 +66,27 @@ exports.getDestination = async function () {
 
   try {
     const querySnapshot = await getDocs(destCollection);
+
+    const data = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    // res.status(500).json({ error: 'Server Error' });
+    return JSON.parse({ error: "Server Error" });
+  }
+};
+
+exports.getPopularDestination = async () => {
+  const destCollection = collection(db, "destinations");
+
+  try {
+    const querySnapshot = await getDocs(
+      destCollection,
+      where("popularDestination", "==", true)
+    );
 
     const data = querySnapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };

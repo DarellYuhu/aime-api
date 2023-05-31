@@ -66,6 +66,16 @@ exports.get = async function (req, res) {
   }
 };
 
+exports.getPopularDestination = async (req, res) => {
+  try {
+    const destination = await destinationService.getPopularDestination();
+    res.status(200).json(destination);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
 exports.check = async function (req, res) {
   const { uuid, destinationId } = req.body;
   try {
