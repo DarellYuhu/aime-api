@@ -25,7 +25,7 @@ router.post("/user", userController.create);
 router.delete("/user/:uuid", userController.delete);
 router.get("/user/:uuid", authenticateToken, userController.get);
 router.get("/user", userController.getAll);
-router.patch("/user/:uuid", userController.update);
+router.patch("/user/:uuid", authenticateToken, userController.update);
 // router.post("/upload", upload.single("file"), (req, res) => {
 //   // const file = req.files.file;
 //   // res.send(file);
