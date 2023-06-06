@@ -1,5 +1,8 @@
 var express = require("express");
-var { authenticateToken } = require("../middleware/auth.middleware");
+var {
+  authenticateToken,
+  authenticateAdminToken,
+} = require("../middleware/auth.middleware");
 var router = express.Router();
 var newsController = require("../controllers/news.controller");
 var destinationController = require("../controllers/destination.controller");
@@ -15,6 +18,7 @@ router.get("/", function (req, res, next) {
 // must protect route
 router.get("/user/:uuid", authenticateToken, userController.get);
 router.patch("/user/:uuid", authenticateToken, userController.update);
+router.get("/user", authenticateAdminToken, userController.getAll);
 
 router.get("/press-release", newsController.getPressRelease);
 router.get("/news", newsController.getNews);
@@ -27,7 +31,6 @@ router.post("/destination/check", destinationController.check);
 router.get("/destination/history/:uuid", destinationController.history);
 router.post("/user", userController.create);
 router.delete("/user/:uuid", userController.delete);
-router.get("/user", userController.getAll);
 router.post("/banner", bannerController.createBanner);
 router.get("/banner", bannerController.getBanner);
 router.patch("/banner/:id", bannerController.updateBanner);
