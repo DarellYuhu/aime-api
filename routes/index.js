@@ -26,11 +26,6 @@ router.delete("/user/:uuid", userController.delete);
 router.get("/user/:uuid", authenticateToken, userController.get);
 router.get("/user", userController.getAll);
 router.patch("/user/:uuid", authenticateToken, userController.update);
-// router.post("/upload", upload.single("file"), (req, res) => {
-//   // const file = req.files.file;
-//   // res.send(file);
-//   console.log(req.file);
-// });
 router.post("/banner", bannerController.createBanner);
 router.get("/banner", bannerController.getBanner);
 router.patch("/banner/:id", bannerController.updateBanner);

@@ -1,5 +1,7 @@
 var authServices = require("../services/auth.service");
 var jwt = require("jsonwebtoken");
+
+console.log(secret);
 exports.login = (req, res) => {
   const { username, password } = req.body;
   const admin = authServices.adminLogin(username, password);
@@ -27,7 +29,7 @@ exports.clientLogin = async (req, res) => {
       return;
     }
     const { user, role } = client;
-    const token = jwt.sign({ user, role }, "yuhu", {
+    const token = jwt.sign({ user, role }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     res.json({
