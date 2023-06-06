@@ -32,7 +32,6 @@ exports.clientLogin = async (req, res) => {
     });
     res.json({
       token,
-      user,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

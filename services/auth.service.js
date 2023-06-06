@@ -4,7 +4,6 @@ var {
   collection,
   getDocs,
   query,
-  doc,
 } = require("firebase/firestore");
 const firebase = require("../config");
 const db = getFirestore(firebase);
@@ -27,7 +26,7 @@ exports.clientLogin = async (email, uid) => {
     if (!user) {
       return false;
     }
-    return { user: email, role: "client" };
+    return { user: { email, uid }, role: "client" };
   } catch (e) {
     return e;
   }

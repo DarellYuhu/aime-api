@@ -1,12 +1,11 @@
 var express = require("express");
+var { authenticateToken } = require("../middleware/auth.middleware");
 var router = express.Router();
 var newsController = require("../controllers/news.controller");
 var destinationController = require("../controllers/destination.controller");
 var userController = require("../controllers/user.controller");
 var bannerController = require("../controllers/banner.controller");
 var authController = require("../controllers/auth.controller");
-// const multer = require("multer");
-// const upload = multer({ dest: "uploads/" });
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -24,7 +23,7 @@ router.post("/destination/check", destinationController.check);
 router.get("/destination/history/:uuid", destinationController.history);
 router.post("/user", userController.create);
 router.delete("/user/:uuid", userController.delete);
-router.get("/user/:uuid", userController.get);
+router.get("/user/:uuid", authenticateToken, userController.get);
 router.get("/user", userController.getAll);
 router.patch("/user/:uuid", userController.update);
 // router.post("/upload", upload.single("file"), (req, res) => {
