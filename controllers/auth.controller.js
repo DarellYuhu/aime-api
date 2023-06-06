@@ -1,7 +1,5 @@
 var authServices = require("../services/auth.service");
 var jwt = require("jsonwebtoken");
-
-console.log(secret);
 exports.login = (req, res) => {
   const { username, password } = req.body;
   const admin = authServices.adminLogin(username, password);
@@ -15,7 +13,7 @@ exports.login = (req, res) => {
   });
   res.json({
     token,
-    user: user,
+    user,
   });
 };
 

@@ -12,6 +12,10 @@ router.get("/", function (req, res, next) {
   res.status(200).json({ message: "Welcome to the Aime API" });
 });
 
+// must protect route
+router.get("/user/:uuid", authenticateToken, userController.get);
+router.patch("/user/:uuid", authenticateToken, userController.update);
+
 router.get("/press-release", newsController.getPressRelease);
 router.get("/news", newsController.getNews);
 router.get("/destination", destinationController.get);
@@ -23,9 +27,7 @@ router.post("/destination/check", destinationController.check);
 router.get("/destination/history/:uuid", destinationController.history);
 router.post("/user", userController.create);
 router.delete("/user/:uuid", userController.delete);
-router.get("/user/:uuid", authenticateToken, userController.get);
 router.get("/user", userController.getAll);
-router.patch("/user/:uuid", authenticateToken, userController.update);
 router.post("/banner", bannerController.createBanner);
 router.get("/banner", bannerController.getBanner);
 router.patch("/banner/:id", bannerController.updateBanner);
