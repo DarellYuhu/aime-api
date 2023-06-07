@@ -19,7 +19,7 @@ router.get("/", function (req, res, next) {
 /* Client route */
 router.get("/user/:uuid", authenticateClientToken, userController.get);
 router.patch("/user/:uuid", authenticateClientToken, userController.update);
-router.post("/user", authenticateClientToken, userController.create);
+router.post("/user", userController.create);
 /* Admin route */
 router.get("/user", authenticateAdminToken, userController.getAll); // get all user
 router.delete("/user/:uuid", authenticateAdminToken, userController.delete); // delete user
