@@ -20,10 +20,9 @@ exports.login = (req, res) => {
 exports.clientLogin = async (req, res) => {
   const { email, uid } = req.body;
   try {
-    console.log(email, uid);
     const client = await authServices.clientLogin(email, uid);
     if (!client) {
-      res.status(401).json({ error: "Unauthorized" });
+      res.status(401).json({ message: "Unauthorized or user does not exist" });
       return;
     }
     const { user, role } = client;
