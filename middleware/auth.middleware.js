@@ -1,7 +1,7 @@
 var jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
 
-exports.authenticateToken = async (req, res, next) => {
+exports.authenticateClientToken = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader?.split(" ")[1];
   if (token == null) return res.sendStatus(401);
@@ -23,10 +23,10 @@ exports.authenticateToken = async (req, res, next) => {
 };
 
 exports.authenticateAdminToken = async (req, res, next) => {
+  console.log(`header: ${req.headers.Authorization}`);
   const authHeader = req.headers["authorization"];
   const token = authHeader?.split(" ")[1];
   if (token == null) return res.sendStatus(401);
-
   try {
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) return res.sendStatus(401);

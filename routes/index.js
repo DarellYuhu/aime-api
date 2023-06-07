@@ -1,6 +1,6 @@
 var express = require("express");
 var {
-  authenticateToken,
+  authenticateClientToken,
   authenticateAdminToken,
 } = require("../middleware/auth.middleware");
 var router = express.Router();
@@ -15,26 +15,49 @@ router.get("/", function (req, res, next) {
   res.status(200).json({ message: "Welcome to the Aime API" });
 });
 
-// must protect route
-router.get("/user/:uuid", authenticateToken, userController.get);
-router.patch("/user/:uuid", authenticateToken, userController.update);
-router.get("/user", authenticateAdminToken, userController.getAll);
+// PRIVATE ROUTES
+/* Client route */
+router.get("/user/:uuid", authenticateClientToken, userController.get);
+router.patch("/user/:uuid", authenticateClientToken, userController.update);
+router.post("/user", authenticateClientToken, userController.create);
+/* Admin route */
+router.get("/user", authenticateAdminToken, userController.getAll); // get all user
+router.delete("/user/:uuid", authenticateAdminToken, userController.delete); // delete user
+router.post(
+  "/destination",
+  authenticateAdminToken,
+  destinationController.create
+); // create destination
+router.patch(
+  "/destination/:id",
+  authenticateAdminToken,
+  destinationController.patch
+); // update destination
+router.delete(
+  "/destination/:id",
+  authenticateAdminToken,
+  destinationController.delete
+); // delete destination
+router.post("/banner", authenticateAdminToken, bannerController.createBanner); // create banner
+router.patch(
+  "/banner/:id",
+  authenticateAdminToken,
+  bannerController.updateBanner
+); // update banner
+router.delete(
+  "/banner/:id",
+  authenticateAdminToken,
+  bannerController.deleteBanner
+); // delete banner
 
+// PUBLIC ROUTES
 router.get("/press-release", newsController.getPressRelease);
 router.get("/news", newsController.getNews);
 router.get("/destination", destinationController.get);
 router.get("/destination/popular", destinationController.getPopularDestination);
-router.post("/destination", destinationController.create);
-router.patch("/destination/:id", destinationController.patch);
-router.delete("/destination/:id", destinationController.delete);
 router.post("/destination/check", destinationController.check);
 router.get("/destination/history/:uuid", destinationController.history);
-router.post("/user", userController.create);
-router.delete("/user/:uuid", userController.delete);
-router.post("/banner", bannerController.createBanner);
 router.get("/banner", bannerController.getBanner);
-router.patch("/banner/:id", bannerController.updateBanner);
-router.delete("/banner/:id", bannerController.deleteBanner);
 router.post("/auth/login/admin", authController.login);
 router.post("/auth/login/client", authController.clientLogin);
 module.exports = router;
