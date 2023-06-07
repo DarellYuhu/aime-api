@@ -4,7 +4,7 @@ const secret = process.env.JWT_SECRET;
 exports.authenticateClientToken = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader?.split(" ")[1];
-  if (token == null) return res.sendStatus(401);
+  if (token == null) return res.status(401).json({ message: "Unauthorized" });
   try {
     jwt.verify(token, secret, async (err, decodedToken) => {
       if (err) return res.sendStatus(401);
